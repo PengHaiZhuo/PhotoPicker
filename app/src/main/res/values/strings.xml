@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">PhotoPicker</string>
+    <string name="please_pick_image">请选择图片</string>
+    <string name="notify_image_permission">为确保应用正常运行，请允许相机和读取权限。</string>
+</resources>

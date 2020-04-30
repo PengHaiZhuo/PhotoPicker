@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="grid_image_size">100dp</dimen>
+    <dimen name="view_height_normal">50dp</dimen>
+    <dimen name="margin_horizontal">15dp</dimen>
+    <dimen name="text_size_middle">15sp</dimen>
+    <dimen name="vertical_space">6dp</dimen>
+    <dimen name="margin_vertical">10dp</dimen>
+</resources>
