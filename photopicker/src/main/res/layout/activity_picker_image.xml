@@ -5,13 +5,10 @@
     android:layout_height="match_parent"
     tools:ignore="ResourceName">
 
-    <!--<include layout="@layout/toolbar_photo_picker" />-->
-
     <GridView
         android:id="@+id/grid"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/pickerToolbar"
         android:clipToPadding="false"
         android:columnWidth="@dimen/image_size"
         android:horizontalSpacing="@dimen/space_size"

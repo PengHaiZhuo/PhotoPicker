@@ -132,12 +132,12 @@ public class PickerImageActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
         }
 
-        if(item.getItemId() == R.id.action_picker_done){
+        if (item.getItemId() == R.id.action_picker_done) {
             // 关闭界面并把图片路径列表放入Intent回传
             Intent intent = new Intent();
             intent.putStringArrayListExtra(ImagePickerConstract.EXTRA_RESULT, resultList);

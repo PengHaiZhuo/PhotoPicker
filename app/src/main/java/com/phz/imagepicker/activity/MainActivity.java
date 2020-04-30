@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mContext = this;
-        myGridView=findViewById(R.id.myGridView);
+        myGridView = findViewById(R.id.myGridView);
         initData();
     }
 
@@ -108,20 +108,22 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 跳转到图片选择器
      */
-    private void toPickPhoto(int position,String string){
+    private void toPickPhoto(int position, String string) {
         if (Constract.PLUS.equals(string)) {
             PickImageIntent intent = new PickImageIntent(mContext);
+            //设置为多选模式
             intent.setSelectModel(SelectMode.MULTI);
-            // 是否显示拍照
+            // 是否拍照
             intent.setIsShowCamera(true);
+            //设置最多选择照片数量
             if (imagePathsList.size() > 0 && imagePathsList.size() < (INT_MAXSIZE_IMG + 1)) {
                 // 最多选择照片数量
                 intent.setSelectedCount(INT_MAXSIZE_IMG + 1 - imagePathsList.size());
             } else {
                 intent.setSelectedCount(0);
             }
-                        /*// 已选中的照片地址， 用于回显选中状态
-                        intent.setSelectedPaths(imagePathsList);*/
+            /*// 已选中的照片地址， 用于回显选中状态
+            intent.setSelectedPaths(imagePathsList);*/
             startActivityForResult(intent, REQUEST_CAMERA_CODE);
         } else {
             PreViewImageIntent intent = new PreViewImageIntent(mContext);
@@ -140,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode==RESULT_OK){
+        if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_CAMERA_CODE:
                     if (data != null) {
@@ -153,9 +155,6 @@ public class MainActivity extends AppCompatActivity {
                         ArrayList<String> ListExtra = data.getStringArrayListExtra(ImagePickerConstract.EXTRA_RESULT);
                         if (imagePathsList != null) {
                             imagePathsList.clear();
-                        }
-                        if (ListExtra.contains(Constract.PLUS)) {
-                            ListExtra.remove(Constract.PLUS);
                         }
                         imagePathsList.addAll(ListExtra);
                         if (imagePathsList.size() < INT_MAXSIZE_IMG) {
@@ -179,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
             }
             if (isAllGranted) {
                 //全部获取了
-                toPickPhoto(gridViewItemClickPosition,gridViewItemClickPath);
+                toPickPhoto(gridViewItemClickPosition, gridViewItemClickPath);
             } else {
                 //至少有一个被拒绝
                 Toast.makeText(mContext, getString(R.string.notify_image_permission), Toast.LENGTH_LONG).show();

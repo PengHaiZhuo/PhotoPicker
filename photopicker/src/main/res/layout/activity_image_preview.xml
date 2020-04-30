@@ -6,8 +6,6 @@
     android:orientation="vertical"
     tools:ignore="ResourceName">
 
-    <!--<include layout="@layout/toolbar_photo_picker" />-->
-
     <com.phz.photopicker.view.MyViewPager
         android:id="@+id/vp_photos"
         android:layout_width="match_parent"

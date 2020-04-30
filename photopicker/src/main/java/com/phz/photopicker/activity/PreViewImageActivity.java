@@ -50,12 +50,12 @@ public class PreViewImageActivity extends AppCompatActivity implements OnPhotoTa
      * 是否显示删除菜单按钮
      * 默认显示
      */
-    private boolean isShowDeleteMenu =true;
+    private boolean isShowDeleteMenu = true;
 
     /**
      * 闲置状态下保持在屏幕外的页面个数
      */
-    private int offscreenPageLimit =5;
+    private int offscreenPageLimit = 5;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,16 +64,16 @@ public class PreViewImageActivity extends AppCompatActivity implements OnPhotoTa
 
         ArrayList<String> exportList = getIntent().getStringArrayListExtra(ImagePickerConstract.EXTRA_PHOTOS);
         currentItem = getIntent().getIntExtra(ImagePickerConstract.EXTRA_CURRENT_ITEM, 0);
-        isShowDeleteMenu=getIntent().getBooleanExtra(ImagePickerConstract.EXTRA_IS_SHOW_DELETE, true);
-        if (exportList!=null){
+        isShowDeleteMenu = getIntent().getBooleanExtra(ImagePickerConstract.EXTRA_IS_SHOW_DELETE, true);
+        if (exportList != null) {
             resultList.addAll(exportList);
         }
 
         //加载控件
-        myViewPager =  findViewById(R.id.vp_photos);
+        myViewPager = findViewById(R.id.vp_photos);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mPageAdapter=new PhotoPagerAdapter(resultList,this,this);
+        mPageAdapter = new PhotoPagerAdapter(resultList, this, this);
         myViewPager.setAdapter(mPageAdapter);
         myViewPager.setCurrentItem(currentItem);
         myViewPager.setOffscreenPageLimit(offscreenPageLimit);
@@ -99,7 +99,7 @@ public class PreViewImageActivity extends AppCompatActivity implements OnPhotoTa
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (isShowDeleteMenu){
+        if (isShowDeleteMenu) {
             getMenuInflater().inflate(R.menu.menu_preview, menu);
         }
         return true;
