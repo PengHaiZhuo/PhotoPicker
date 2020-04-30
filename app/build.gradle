@@ -38,5 +38,8 @@ dependencies {
     //9宫格的图片选择
     implementation 'com.jaeger.ninegridimageview:library:1.1.1'
 
-    implementation project(':photopicker')
+//    implementation project(':photopicker')
+
+    implementation 'com.github.PengHaiZhuo:PhotoPicker:1.0.0'
 }
+
