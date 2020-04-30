@@ -1,4 +1,4 @@
-# PhotoPicker [![1.0.1](https://jitpack.io/v/PengHaiZhuo/PhotoPicker.svg)](https://jitpack.io/#PengHaiZhuo/PhotoPicker)
+# PhotoPicker [![](https://jitpack.io/v/PengHaiZhuo/PhotoPicker.svg)](https://jitpack.io/#PengHaiZhuo/PhotoPicker)
 图片选择器
 
 
