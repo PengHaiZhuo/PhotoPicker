@@ -35,7 +35,7 @@ dependencies {
 	//本地库依赖
     //implementation project(':photopicker')
     //远程依赖
-    implementation 'com.github.PengHaiZhuo:PhotoPicker:1.0.1'
+    implementation 'com.github.PengHaiZhuo:PhotoPicker:1.0.2'
 }
 ```
 
