@@ -12,7 +12,6 @@ import com.bumptech.glide.Glide;
 import com.phz.photopicker.R;
 import com.phz.photopicker.model.ImageModel;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -186,12 +185,11 @@ public class MyGridViewAdapter extends BaseAdapter {
             }else{
                 ivCheck.setVisibility(View.GONE);
             }
-            File imageFile = new File(data.getPath());
 
             if(mItemSize > 0) {
                 // 显示图片
                 Glide.with(mContext)
-                        .load(imageFile)
+                        .load(data.getPath())
                         .placeholder(R.drawable.default_error)
                         .error(R.drawable.default_error)
                         .override(mItemSize, mItemSize)

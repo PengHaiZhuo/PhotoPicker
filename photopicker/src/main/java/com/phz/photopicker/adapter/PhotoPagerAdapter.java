@@ -28,9 +28,9 @@ public class PhotoPagerAdapter extends PagerAdapter {
     /**
      * 路径判断依据字段一：http
      */
-    private static final String STRING_FLAG_IMAGE="http";
+    private static final String STRING_FLAG_IMAGE = "http";
     /**
-     *图片路径列表
+     * 图片路径列表
      */
     private List<String> pathList = new ArrayList<>();
     /**
@@ -44,23 +44,23 @@ public class PhotoPagerAdapter extends PagerAdapter {
 
     private OnPhotoTapListener mOnPhotoTapListener;
 
-    public PhotoPagerAdapter(List<String> pathList, Context mContext,OnPhotoTapListener onPhotoTapListener) {
+    public PhotoPagerAdapter(List<String> pathList, Context mContext, OnPhotoTapListener onPhotoTapListener) {
         this.pathList = pathList;
         this.mContext = mContext;
         mLayoutInflater = LayoutInflater.from(mContext);
-        mOnPhotoTapListener=onPhotoTapListener;
+        mOnPhotoTapListener = onPhotoTapListener;
     }
 
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        View itemView=mLayoutInflater.inflate(R.layout.item_preview_image,container,false);
-        PhotoView photoView=itemView.findViewById(R.id.iv_photo);
+        View itemView = mLayoutInflater.inflate(R.layout.item_preview_image, container, false);
+        PhotoView photoView = itemView.findViewById(R.id.iv_photo);
 
         //判断路径是否是http字段开头
-        final String path=pathList.get(position);
-        if (TextUtils.isEmpty(path)){
-        }else if (path.startsWith(STRING_FLAG_IMAGE)){
+        final String path = pathList.get(position);
+        if (TextUtils.isEmpty(path)) {
+        } else if (path.startsWith(STRING_FLAG_IMAGE)) {
             //路径以http开头
             Glide.with(mContext)
                     .load(Uri.parse(path))
@@ -68,10 +68,10 @@ public class PhotoPagerAdapter extends PagerAdapter {
                     .error(R.drawable.default_error)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(photoView);
-        }else {
+        } else {
             //不是网络的图片，把path当成本地路径
             Glide.with(mContext)
-                    .load(Uri.fromFile(new File(path)))
+                    .load(path)
                     .placeholder(R.drawable.default_error)
                     .error(R.drawable.default_error)
                     .transition(DrawableTransitionOptions.withCrossFade())
@@ -89,7 +89,7 @@ public class PhotoPagerAdapter extends PagerAdapter {
 
     @Override
     public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-        return view==object;
+        return view == object;
     }
 
     @Override
@@ -99,6 +99,7 @@ public class PhotoPagerAdapter extends PagerAdapter {
 
     /**
      * 对象的新位置索引
+     *
      * @param object
      * @return 默认实现假定项目永远不会改变位置，并且始终返回POSITION_UNCHANGED。重写成始终返回不存在POSITION_NONE
      */
