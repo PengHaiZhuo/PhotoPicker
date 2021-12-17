@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import com.github.chrisbanes.photoview.OnPhotoTapListener;
 import com.phz.photopicker.R;
 import com.phz.photopicker.adapter.PhotoPagerAdapter;
-import com.phz.photopicker.config.ImagePickerConstract;
+import com.phz.photopicker.config.ImagePickerConstant;
 import com.phz.photopicker.view.MyViewPager;
 
 import java.util.ArrayList;
@@ -62,9 +62,9 @@ public class PreViewImageActivity extends AppCompatActivity implements OnPhotoTa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_preview);
 
-        ArrayList<String> exportList = getIntent().getStringArrayListExtra(ImagePickerConstract.EXTRA_PHOTOS);
-        currentItem = getIntent().getIntExtra(ImagePickerConstract.EXTRA_CURRENT_ITEM, 0);
-        isShowDeleteMenu = getIntent().getBooleanExtra(ImagePickerConstract.EXTRA_IS_SHOW_DELETE, true);
+        ArrayList<String> exportList = getIntent().getStringArrayListExtra(ImagePickerConstant.EXTRA_PHOTOS);
+        currentItem = getIntent().getIntExtra(ImagePickerConstant.EXTRA_CURRENT_ITEM, 0);
+        isShowDeleteMenu = getIntent().getBooleanExtra(ImagePickerConstant.EXTRA_IS_SHOW_DELETE, true);
         if (exportList != null) {
             resultList.addAll(exportList);
         }
@@ -109,7 +109,7 @@ public class PreViewImageActivity extends AppCompatActivity implements OnPhotoTa
     public void onBackPressed() {
         //返回上个界面，把数据传递回去
         Intent intent = new Intent();
-        intent.putExtra(ImagePickerConstract.EXTRA_RESULT, resultList);
+        intent.putExtra(ImagePickerConstant.EXTRA_RESULT, resultList);
         setResult(RESULT_OK, intent);
         finish();
         super.onBackPressed();

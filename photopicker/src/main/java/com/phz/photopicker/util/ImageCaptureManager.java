@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -32,7 +33,8 @@ public class ImageCaptureManager {
 
     /**
      * 用于保存图片Uri
-     * Android10因为文件系统的关系，使用uri来访问图片
+     * 因为文件系统的关系，使用uri来访问图片
+     * 示例：content://com.android.providers.media.documents/document/image%3A1214406
      */
     private Uri mCurrentPhotoPathUri;
 
@@ -53,6 +55,7 @@ public class ImageCaptureManager {
         File image = new File(storageDir, imageFileName + ".jpg");
         mCurrentPhotoPath = image.getAbsolutePath();
         mCurrentPhotoPathUri=CheckUtil.getUriForFile(mContext, image);
+        Log.d("ImageCaptureManager", "createImageFile: "+mCurrentPhotoPathUri.toString());
         return image;
     }
 

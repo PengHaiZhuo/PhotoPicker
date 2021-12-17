@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.phz.photopicker.activity.PreViewImageActivity;
-import com.phz.photopicker.config.ImagePickerConstract;
+import com.phz.photopicker.config.ImagePickerConstant;
 
 import java.util.ArrayList;
 
@@ -22,7 +22,7 @@ public class PreViewImageIntent extends Intent {
      * @param pathList
      */
     public void setPhotoPaths(ArrayList<String> pathList){
-        this.putStringArrayListExtra(ImagePickerConstract.EXTRA_PHOTOS, pathList);
+        this.putStringArrayListExtra(ImagePickerConstant.EXTRA_PHOTOS, pathList);
     }
 
     /**
@@ -30,7 +30,7 @@ public class PreViewImageIntent extends Intent {
      * @param currentItem
      */
     public void setCurrentItem(int currentItem){
-        this.putExtra(ImagePickerConstract.EXTRA_CURRENT_ITEM, currentItem);
+        this.putExtra(ImagePickerConstant.EXTRA_CURRENT_ITEM, currentItem);
     }
 
     /**
@@ -38,6 +38,6 @@ public class PreViewImageIntent extends Intent {
      * @param isShow
      */
     public void setIsShowDeleteMenu(boolean isShow){
-        this.putExtra(ImagePickerConstract.EXTRA_IS_SHOW_DELETE, isShow);
+        this.putExtra(ImagePickerConstant.EXTRA_IS_SHOW_DELETE, isShow);
     }
 }

@@ -20,7 +20,7 @@ public class UsageUtil {
      */
     public static int getNumColnums(Context context){
         int cols = context.getResources().getDisplayMetrics().widthPixels / context.getResources().getDisplayMetrics().densityDpi;
-        return cols < 3 ? 3 : cols;
+        return Math.max(cols, 3);
     }
 
     /**
@@ -57,8 +57,7 @@ public class UsageUtil {
         ApplicationInfo appInfo;
         try {
             appInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
-            String appName = appInfo.loadLabel(context.getPackageManager()) + "";
-            return appName;
+            return appInfo.loadLabel(context.getPackageManager()) + "";
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.phz.imagepicker.R;
-import com.phz.imagepicker.config.Constract;
+import com.phz.imagepicker.config.Constant;
 
 import java.util.ArrayList;
 
@@ -60,7 +60,7 @@ public class BitmapAdapter extends BaseAdapter {
         }
 
         final String path = urlList.get(position);
-        if (path.equals(Constract.PLUS)) {
+        if (path.equals(Constant.PLUS)) {
             holder.iv.setImageResource(R.drawable.plus);
         } else {
             Glide.with(mContext)

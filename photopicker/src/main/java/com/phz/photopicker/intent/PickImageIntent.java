@@ -5,7 +5,7 @@ import android.content.Intent;
 
 import com.phz.photopicker.activity.PickerImageActivity;
 import com.phz.photopicker.config.ImageConfig;
-import com.phz.photopicker.config.ImagePickerConstract;
+import com.phz.photopicker.config.ImagePickerConstant;
 import com.phz.photopicker.config.SelectMode;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class PickImageIntent extends Intent {
      * @param flag
      */
     public void setIsShowCamera(boolean flag){
-        this.putExtra(ImagePickerConstract.EXTRA_SHOW_CAMERA,flag);
+        this.putExtra(ImagePickerConstant.EXTRA_SHOW_CAMERA,flag);
     }
 
     /**
@@ -33,7 +33,7 @@ public class PickImageIntent extends Intent {
      * @param total
      */
     public void setSelectedCount(int total){
-        this.putExtra(ImagePickerConstract.EXTRA_SELECT_COUNT,total);
+        this.putExtra(ImagePickerConstant.EXTRA_SELECT_COUNT,total);
     }
 
     /**
@@ -41,7 +41,7 @@ public class PickImageIntent extends Intent {
      * @param model
      */
     public void setSelectModel(SelectMode model){
-        this.putExtra(ImagePickerConstract.EXTRA_SELECT_MODE, model.getSlectMode());
+        this.putExtra(ImagePickerConstant.EXTRA_SELECT_MODE, model.getSelectMode());
     }
 
     /**
@@ -49,7 +49,7 @@ public class PickImageIntent extends Intent {
      * @param list
      */
     public void setSelectedPaths(ArrayList<String> list){
-        this.putStringArrayListExtra(ImagePickerConstract.EXTRA_DEFAULT_SELECTED_LIST, list);
+        this.putStringArrayListExtra(ImagePickerConstant.EXTRA_DEFAULT_SELECTED_LIST, list);
     }
 
     /**
@@ -57,7 +57,7 @@ public class PickImageIntent extends Intent {
      * @param config
      */
     public void setImageConfig(ImageConfig config){
-        this.putExtra(ImagePickerConstract.EXTRA_IMAGE_CONFIG, config);
+        this.putExtra(ImagePickerConstant.EXTRA_IMAGE_CONFIG, config);
     }
 
 }

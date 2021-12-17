@@ -1,17 +1,21 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion 31
 
     defaultConfig {
         applicationId "com.phz.imagepicker"
         minSdkVersion 19
-        targetSdkVersion 29
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
     }
 
     buildTypes {
@@ -20,6 +24,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+
 }
 
 dependencies {
@@ -40,6 +46,6 @@ dependencies {
 
     implementation project(':photopicker')
 
-//    implementation 'com.github.PengHaiZhuo:PhotoPicker:1.0.1'
+//    implementation 'com.github.PengHaiZhuo:PhotoPicker:1.0.2'
 }
 

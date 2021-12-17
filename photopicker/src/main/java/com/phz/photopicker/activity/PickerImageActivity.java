@@ -24,7 +24,7 @@ import com.phz.photopicker.R;
 import com.phz.photopicker.adapter.MyFileListAdapter;
 import com.phz.photopicker.adapter.MyGridViewAdapter;
 import com.phz.photopicker.config.ImageConfig;
-import com.phz.photopicker.config.ImagePickerConstract;
+import com.phz.photopicker.config.ImagePickerConstant;
 import com.phz.photopicker.intent.PreViewImageIntent;
 import com.phz.photopicker.model.ImageFileModel;
 import com.phz.photopicker.model.ImageModel;
@@ -140,7 +140,7 @@ public class PickerImageActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.action_picker_done) {
             // 关闭界面并把图片路径列表放入Intent回传
             Intent intent = new Intent();
-            intent.putStringArrayListExtra(ImagePickerConstract.EXTRA_RESULT, resultList);
+            intent.putStringArrayListExtra(ImagePickerConstant.EXTRA_RESULT, resultList);
             setResult(RESULT_OK, intent);
             finish();
             return true;
@@ -150,16 +150,16 @@ public class PickerImageActivity extends AppCompatActivity {
 
     private void initData() {
         imageCaptureManager = new ImageCaptureManager(mContext);
-        imageConfig = getIntent().getParcelableExtra(ImagePickerConstract.EXTRA_IMAGE_CONFIG);
+        imageConfig = getIntent().getParcelableExtra(ImagePickerConstant.EXTRA_IMAGE_CONFIG);
         // 首次加载所有图片
         LoaderManager.getInstance(this).initLoader(LOADER_ALL, null, mLoaderCallback);
         //最大选择照片数量
-        maxImageSize = getIntent().getIntExtra(ImagePickerConstract.EXTRA_SELECT_COUNT, ImagePickerConstract.DEFAULT_MAX_TOTAL);
+        maxImageSize = getIntent().getIntExtra(ImagePickerConstant.EXTRA_SELECT_COUNT, ImagePickerConstant.DEFAULT_MAX_TOTAL);
         // 图片选择模式 单选or多选
-        final int mode = getIntent().getExtras().getInt(ImagePickerConstract.EXTRA_SELECT_MODE, ImagePickerConstract.MODE_SINGLE);
-        isShowCamera = getIntent().getBooleanExtra(ImagePickerConstract.EXTRA_SHOW_CAMERA, false);
+        final int mode = getIntent().getExtras().getInt(ImagePickerConstant.EXTRA_SELECT_MODE, ImagePickerConstant.MODE_SINGLE);
+        isShowCamera = getIntent().getBooleanExtra(ImagePickerConstant.EXTRA_SHOW_CAMERA, false);
 
-        boolean isShowSelectIndicator = mode == ImagePickerConstract.MODE_MULTI;
+        boolean isShowSelectIndicator = mode == ImagePickerConstant.MODE_MULTI;
         myGridViewAdapter = new MyGridViewAdapter(mContext, UsageUtil.getItemImageWidth(mContext), isShowCamera, isShowSelectIndicator);
         mGridView.setAdapter(myGridViewAdapter);
 
@@ -171,7 +171,7 @@ public class PickerImageActivity extends AppCompatActivity {
                 if (myGridViewAdapter.isShowCamera()) {
                     // 如果显示照相机，则第一个Grid显示为照相机，处理特殊逻辑
                     if (position == 0) {
-                        if (mode == ImagePickerConstract.MODE_MULTI) {
+                        if (mode == ImagePickerConstant.MODE_MULTI) {
                             // 判断选择数量问题
                             if (maxImageSize == resultList.size()) {
                                 Toast.makeText(mContext, R.string.msg_amount_limit, Toast.LENGTH_SHORT).show();
@@ -181,7 +181,7 @@ public class PickerImageActivity extends AppCompatActivity {
                         /**选择相机*/
                         try {
                             Intent intent = imageCaptureManager.dispatchTakePictureIntent();
-                            startActivityForResult(intent, ImagePickerConstract.REQUEST_TAKE_PHOTO);
+                            startActivityForResult(intent, ImagePickerConstant.REQUEST_TAKE_PHOTO);
                         } catch (IOException e) {
                             Toast.makeText(mContext, R.string.msg_no_camera, Toast.LENGTH_SHORT).show();
                             e.printStackTrace();
@@ -225,7 +225,7 @@ public class PickerImageActivity extends AppCompatActivity {
                 PreViewImageIntent intent = new PreViewImageIntent(mContext);
                 intent.setCurrentItem(0);
                 intent.setPhotoPaths(resultList);
-                startActivityForResult(intent, ImagePickerConstract.REQUEST_PREVIEW);
+                startActivityForResult(intent, ImagePickerConstant.REQUEST_PREVIEW);
             }
         });
     }
@@ -444,7 +444,7 @@ public class PickerImageActivity extends AppCompatActivity {
     private void selectImageFromGrid(ImageModel imageModel, int mode) {
         if (imageModel != null) {
             // 多选模式
-            if (mode == ImagePickerConstract.MODE_MULTI) {
+            if (mode == ImagePickerConstant.MODE_MULTI) {
                 if (resultList.contains(imageModel.getPath())) {
                     resultList.remove(imageModel.getPath());
                     onImageUnselected(imageModel.getPath());
@@ -458,7 +458,7 @@ public class PickerImageActivity extends AppCompatActivity {
                     onImageSelected(imageModel.getPath());
                 }
                 myGridViewAdapter.select(imageModel);
-            } else if (mode == ImagePickerConstract.MODE_SINGLE) {
+            } else if (mode == ImagePickerConstant.MODE_SINGLE) {
                 // 单选模式
                 onSingleImageSelected(imageModel.getPath());
             }
@@ -468,7 +468,7 @@ public class PickerImageActivity extends AppCompatActivity {
     public void onSingleImageSelected(String path) {
         Intent data = new Intent();
         resultList.add(path);
-        data.putStringArrayListExtra(ImagePickerConstract.EXTRA_RESULT, resultList);
+        data.putStringArrayListExtra(ImagePickerConstant.EXTRA_RESULT, resultList);
         setResult(RESULT_OK, data);
         finish();
     }
@@ -535,7 +535,7 @@ public class PickerImageActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 /**相机拍照完成后，返回图片路径*/
-                case ImagePickerConstract.REQUEST_TAKE_PHOTO:
+                case ImagePickerConstant.REQUEST_TAKE_PHOTO:
                     if (imageCaptureManager.getCurrentPhotoPath() != null) {
                         //通知刷新图库
                         refreshGallery();
@@ -543,13 +543,13 @@ public class PickerImageActivity extends AppCompatActivity {
                     }
                     // 关闭界面并把图片路径列表放入Intent回传
                     Intent intent = new Intent();
-                    intent.putStringArrayListExtra(ImagePickerConstract.EXTRA_RESULT, resultList);
+                    intent.putStringArrayListExtra(ImagePickerConstant.EXTRA_RESULT, resultList);
                     setResult(RESULT_OK, intent);
                     finish();
                     break;
                 /**预览照片*/
-                case ImagePickerConstract.REQUEST_PREVIEW:
-                    ArrayList<String> pathArr = data.getStringArrayListExtra(ImagePickerConstract.EXTRA_RESULT);
+                case ImagePickerConstant.REQUEST_PREVIEW:
+                    ArrayList<String> pathArr = data.getStringArrayListExtra(ImagePickerConstant.EXTRA_RESULT);
                     // 刷新页面
                     if (pathArr != null && pathArr.size() != resultList.size()) {
                         resultList = pathArr;

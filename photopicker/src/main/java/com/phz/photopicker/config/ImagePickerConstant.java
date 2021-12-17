@@ -4,11 +4,11 @@ package com.phz.photopicker.config;
  * @author haizhuo
  * @introduction 配置信息
  */
-public interface ImagePickerConstract {
+public interface ImagePickerConstant {
     /**
      * 普通回调监听
      */
-    public interface SampleResultListener<T>{
+    interface SampleResultListener<T>{
         void onSuccess(T Data);
         void onFailure(T Data);
     }
@@ -21,8 +21,8 @@ public interface ImagePickerConstract {
         void onFailure();
     }
 
-    interface GetSlectMode {
-        int getSlectMode();
+    interface GetSelectMode {
+        int getSelectMode();
     }
 
     int REQUEST_TAKE_PHOTO = 1;

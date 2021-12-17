@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!--区分实际路径和uri路径
+        伪代码如下
+            #########
+            File rootDir = new File(context.getExternalFilesDir(null), UsageUtil.getAppName(context));
+            File imageDir = new File(rootDir, "images");
+            if (!imageDir.exists()) {imageDir.mkdirs();}
+            File image = new File(imageDir, "IMG_20211217_15时28分21秒.jpg");
+            Uri uri=FileProvider.getUriForFile(context.getApplicationContext(), "com.phz.android7.fp", file);
+            #########
+        uri打印👉content://com.phz.android7.fp/external_files/PhotoPicker/images/IMG_20211217_15%E6%97%B638%E5%88%8621.jpg
+        真实路径👉外部存储/Android/data/com.phz.imagepicker/files/PhotoPicker/images/IMG_20211217_15%E6%97%B638%E5%88%8621.jpg
+        解释说明如下
+            ①com.phz.android7.fp是配置文件中设置的权限字段
+            ②com.phz.imagepicker是当前app的包名
+            ③external_files是本配置文件external-files-path标签中的name字段，因为用了Context.getExternalFilesDir(null)
+            ④PhotoPicker/images是手动设置的子路径
+    -->
+
+    <!--name是URI路径段，path是实际的子目录名称-->
+
+    <root-path
+        name="root_path"
+        path="/" /> <!--内部路径相关api有关，涉及api较多-->
+    <files-path
+        name="my_files"
+        path="fs/" /><!--与Context.getFilesDir()有关-->
+    <files-path
+        name="my_images"
+        path="images/" />
+    <files-path
+        name="my_caches"
+        path="caches/" />
+    <files-path
+        name="my_audios"
+        path="audios/" />
+    <external-path
+        name="external"
+        path="/" /><!--与Environment.getExternalStorageDirectory()有关-->
+    <external-files-path
+        name="my_files"
+        path="fs/" /><!--与Context#getExternalFilesDir(String)和Context.getExternalFilesDir(null)有关-->
+    <external-files-path
+        name="my_images"
+        path="images/" />
+    <external-files-path
+        name="my_caches"
+        path="caches/" />
+    <external-files-path
+        name="my_audios"
+        path="audios/" />
+    <external-cache-path
+        name="external_cache_path"
+        path="/" /> <!--与Context.getExternalCacheDir()有关-->
+</paths>

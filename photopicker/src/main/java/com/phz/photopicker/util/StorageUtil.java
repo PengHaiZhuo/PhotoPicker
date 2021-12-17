@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -23,12 +24,17 @@ import java.io.OutputStream;
  */
 @SuppressWarnings("all")
 public class StorageUtil {
-    private static final String TAG=StorageUtil.class.getSimpleName();
+    private static final String TAG = StorageUtil.class.getSimpleName();
+
     private StorageUtil() {
     }
 
+    private enum TYPE {
+        FILEDIR, FILEIMG, FILECACHE, FILEAUDIO
+    }
+
     /**
-     * 判断外存储是否可写
+     * 判断外存储是否挂载
      *
      * @return
      */
@@ -36,12 +42,47 @@ public class StorageUtil {
         return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
     }
 
-    private static File getAppDir(Context context) {
+    private static File getAppDir(Context context, TYPE typeSub) {
         File rootDir;
-        if (isExternalStorageWritable()) {
-            rootDir = new File(context.getExternalFilesDir(null), UsageUtil.getAppName(context));
-        } else {
-            rootDir = context.getFilesDir();
+        /**
+         * ---关于Android10的分区适配----
+         * 1.从 Android 4.4 到 Android 10，可以通过 Environment.getExternalStorageDirectory() 以 File Api 的方式读写。
+         * 2.通过Context访问自己的私有目录，不需要读写权限，不管系统是哪个版本或者是外部存储还是内部存储。
+         * 3.注意uri和真实路径的区别，查看res/xml/file_paths.xml中的示例
+         * 4.通过Storage Access Framework的Api不需要权限，可以访问其他应用创建的文件。
+         * 不重要的知识：
+         *      ① 6.0开始需要申请存储权限；
+         *      ② Android 10开始可以做分区适配，不想做的话在配置清单application节点添加声明（requestLegacyExternalStorage = true）。
+         *      不过②这种方式在Android11失效了
+         */
+        File mFile;
+        if (isExternalStorageWritable()) {//有外部存储
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {//Android 11以前
+                //mFile👉外部存储根目录/项目名称
+                mFile = new File(Environment.getExternalStorageDirectory(), UsageUtil.getAppName(context));
+            } else {//Android11及以后，返回私有目录files
+                //mFile👉外部存储当前项目目录/files/项目名称
+                mFile = new File(context.getExternalFilesDir(null), UsageUtil.getAppName(context));
+            }
+        } else {//没有外部存储
+            //mFile👉内部存储当前项目目录/files
+            mFile = new File(context.getFilesDir(), UsageUtil.getAppName(context));
+        }
+        switch (typeSub) {
+            case FILEDIR:
+                rootDir = new File(mFile, "fs");
+                break;
+            case FILEIMG:
+                rootDir = new File(mFile, "images");
+                break;
+            case FILECACHE:
+                rootDir = new File(mFile, "caches");
+                break;
+            case FILEAUDIO:
+                rootDir = new File(mFile, "audios");
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + typeSub);
         }
         if (!rootDir.exists()) {
             rootDir.mkdirs();
@@ -55,11 +96,7 @@ public class StorageUtil {
      * @return
      */
     public static File getFileDir(Context context) {
-        File fileDir = new File(getAppDir(context), "file");
-        if (!fileDir.exists()) {
-            fileDir.mkdirs();
-        }
-        return fileDir;
+        return getAppDir(context, TYPE.FILEDIR);
     }
 
 
@@ -69,11 +106,7 @@ public class StorageUtil {
      * @return
      */
     public static File getImageDir(Context context) {
-        File imageDir = new File(getAppDir(context), "image");
-        if (!imageDir.exists()) {
-            imageDir.mkdirs();
-        }
-        return imageDir;
+        return getAppDir(context, TYPE.FILEIMG);
     }
 
     /**
@@ -82,11 +115,7 @@ public class StorageUtil {
      * @return
      */
     public static File getCacheDir(Context context) {
-        File cacheDir = new File(getAppDir(context), "cache");
-        if (!cacheDir.exists()) {
-            cacheDir.mkdirs();
-        }
-        return cacheDir;
+        return getAppDir(context, TYPE.FILECACHE);
     }
 
     /**
@@ -95,16 +124,12 @@ public class StorageUtil {
      * @return
      */
     public static File getAudioDir(Context context) {
-        File audioDir = new File(getAppDir(context), "audio");
-        if (!audioDir.exists()) {
-            audioDir.mkdirs();
-        }
-        return audioDir;
+        return getAppDir(context, TYPE.FILEAUDIO);
     }
 
     /**
      * @param context
-     * @return "/storage/emulated/0/Android/data/com.xxx.xxx/cache"目录
+     * @return 真实路径"/storage/emulated/0/Android/data/包名/cache"
      */
     public static String getExternalCacheDir(Context context) {
         return context.getExternalCacheDir().getAbsolutePath();
@@ -153,11 +178,11 @@ public class StorageUtil {
             return true;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            Log.e(TAG,e.getMessage());
+            Log.e(TAG, e.getMessage());
             return false;
         } catch (IOException e) {
             e.printStackTrace();
-            Log.e(TAG,e.getMessage());
+            Log.e(TAG, e.getMessage());
             return false;
         } finally {
             closeStream(os);
@@ -252,18 +277,22 @@ public class StorageUtil {
 
 
     /**
-     * 通过uri拿到文件真实路径
+     * 通过uri拿到图片文件真实路径
+     *
      * @param context
      * @param uri
      * @return
      */
-    public static String getRealFilePath(final Context context, final Uri uri) {
-        if (null == uri) {return null;}
+    @Deprecated(since = "Android10开始，MediaStore.Images.ImageColumns.DATA被标记为过期")
+    public static String getImgRealFilePath(final Context context, final Uri uri) {
+        if (null == uri) {
+            return null;
+        }
         final String scheme = uri.getScheme();
         String data = null;
-        if (scheme == null)
-        {data = uri.getPath();}
-        else if (ContentResolver.SCHEME_FILE.equals(scheme)) {
+        if (scheme == null) {
+            data = uri.getPath();
+        } else if (ContentResolver.SCHEME_FILE.equals(scheme)) {
             data = uri.getPath();
         } else if (ContentResolver.SCHEME_CONTENT.equals(scheme)) {
             final Cursor cursor = context.getContentResolver().query(uri, new String[]{MediaStore.Images.ImageColumns.DATA}, null, null, null);

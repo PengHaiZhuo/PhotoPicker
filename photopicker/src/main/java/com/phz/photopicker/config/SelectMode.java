@@ -4,9 +4,9 @@ package com.phz.photopicker.config;
  * @author haizhuo
  * @introduction
  */
-public enum SelectMode implements ImagePickerConstract.GetSlectMode{
-    SINGLE(ImagePickerConstract.MODE_SINGLE),
-    MULTI(ImagePickerConstract.MODE_MULTI);
+public enum SelectMode implements ImagePickerConstant.GetSelectMode {
+    SINGLE(ImagePickerConstant.MODE_SINGLE),
+    MULTI(ImagePickerConstant.MODE_MULTI);
 
     private int mode;
 
@@ -15,7 +15,7 @@ public enum SelectMode implements ImagePickerConstract.GetSlectMode{
     }
 
     @Override
-    public int getSlectMode() {
+    public int getSelectMode() {
         return mode;
     }
 }

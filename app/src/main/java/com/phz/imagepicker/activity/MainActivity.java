@@ -11,8 +11,8 @@ import android.widget.Toast;
 
 import com.phz.imagepicker.R;
 import com.phz.imagepicker.adapter.BitmapAdapter;
-import com.phz.imagepicker.config.Constract;
-import com.phz.photopicker.config.ImagePickerConstract;
+import com.phz.imagepicker.config.Constant;
+import com.phz.photopicker.config.ImagePickerConstant;
 import com.phz.photopicker.config.SelectMode;
 import com.phz.photopicker.intent.PickImageIntent;
 import com.phz.photopicker.intent.PreViewImageIntent;
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
             Manifest.permission.READ_EXTERNAL_STORAGE};
 
     /**
-     * 没有权限时，点击GridView时点击的位置和路径，这2个默认值是0和{@link Constract.PLUS}
+     * 没有权限时，点击GridView时点击的位置和路径，这2个默认值是0和{@link Constant.PLUS}
      */
     private int gridViewItemClickPosition;
     private String gridViewItemClickPath;
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
     private void initData() {
         int cols = UsageUtil.getNumColnums(this);
         myGridView.setNumColumns(cols);
-        imagePathsList.add(Constract.PLUS);
+        imagePathsList.add(Constant.PLUS);
         adapter = new BitmapAdapter(imagePathsList, this);
         myGridView.setAdapter(adapter);
         myGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
      * 跳转到图片选择器
      */
     private void toPickPhoto(int position, String string) {
-        if (Constract.PLUS.equals(string)) {
+        if (Constant.PLUS.equals(string)) {
             PickImageIntent intent = new PickImageIntent(mContext);
             //设置为多选模式
             intent.setSelectModel(SelectMode.MULTI);
@@ -128,8 +128,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             PreViewImageIntent intent = new PreViewImageIntent(mContext);
             intent.setCurrentItem(position);
-            if (imagePathsList.contains(Constract.PLUS)) {
-                imagePathsList.remove(Constract.PLUS);
+            if (imagePathsList.contains(Constant.PLUS)) {
+                imagePathsList.remove(Constant.PLUS);
             }
             intent.setPhotoPaths(imagePathsList);
             startActivityForResult(intent, REQUEST_PREVIEW_CODE);
@@ -146,19 +146,19 @@ public class MainActivity extends AppCompatActivity {
             switch (requestCode) {
                 case REQUEST_CAMERA_CODE:
                     if (data != null) {
-                        ArrayList<String> list = data.getStringArrayListExtra(ImagePickerConstract.EXTRA_RESULT);
+                        ArrayList<String> list = data.getStringArrayListExtra(ImagePickerConstant.EXTRA_RESULT);
                         updateGridView(list);
                     }
                     break;
                 case REQUEST_PREVIEW_CODE:
                     if (data != null) {
-                        ArrayList<String> ListExtra = data.getStringArrayListExtra(ImagePickerConstract.EXTRA_RESULT);
+                        ArrayList<String> ListExtra = data.getStringArrayListExtra(ImagePickerConstant.EXTRA_RESULT);
                         if (imagePathsList != null) {
                             imagePathsList.clear();
                         }
                         imagePathsList.addAll(ListExtra);
                         if (imagePathsList.size() < INT_MAXSIZE_IMG) {
-                            imagePathsList.add(Constract.PLUS);
+                            imagePathsList.add(Constant.PLUS);
                         }
                         adapter = new BitmapAdapter(imagePathsList, mContext);
                         myGridView.setAdapter(adapter);
@@ -209,13 +209,13 @@ public class MainActivity extends AppCompatActivity {
      * @param list 选择照片的路径列表
      */
     private void updateGridView(ArrayList<String> list) {
-        if (imagePathsList.contains(Constract.PLUS)) {
-            imagePathsList.remove(Constract.PLUS);
+        if (imagePathsList.contains(Constant.PLUS)) {
+            imagePathsList.remove(Constant.PLUS);
         }
         imagePathsList.addAll(list);
         /** 小于INT_MAXSIZE_IMG时显示添加图片item(也就是plus)*/
         if (imagePathsList.size() < INT_MAXSIZE_IMG) {
-            imagePathsList.add(Constract.PLUS);
+            imagePathsList.add(Constant.PLUS);
         }
         adapter = new BitmapAdapter(imagePathsList, mContext);
         myGridView.setAdapter(adapter);
