@@ -2,7 +2,7 @@
 图片选择器
 
 
-#### 工程目录下gradle文件添加jetpack依赖：
+#### 工程目录下gradle文件添加jitpack依赖：
 
 ```java
 allprojects {
