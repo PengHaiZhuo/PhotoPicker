@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        int cols = UsageUtil.getNumColnums(this);
+        int cols = UsageUtil.getNumColumn(this);
         myGridView.setNumColumns(cols);
         imagePathsList.add(Constant.PLUS);
         adapter = new BitmapAdapter(imagePathsList, this);

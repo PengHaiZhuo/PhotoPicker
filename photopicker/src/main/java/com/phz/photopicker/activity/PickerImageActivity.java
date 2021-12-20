@@ -20,6 +20,14 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.ListPopupWindow;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.CursorLoader;
+import androidx.loader.content.Loader;
+
 import com.phz.photopicker.R;
 import com.phz.photopicker.adapter.MyFileListAdapter;
 import com.phz.photopicker.adapter.MyGridViewAdapter;
@@ -36,14 +44,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.ListPopupWindow;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.CursorLoader;
-import androidx.loader.content.Loader;
 
 /**
  * @author haizhuo
@@ -200,33 +200,27 @@ public class PickerImageActivity extends AppCompatActivity {
         });
 
         //点击相册列表按钮
-        btnAlbum.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mFolderPopupWindow == null) {
-                    createPopupFolderList();
-                }
+        btnAlbum.setOnClickListener(v -> {
+            if (mFolderPopupWindow == null) {
+                createPopupFolderList();
+            }
 
-                if (mFolderPopupWindow.isShowing()) {
-                    mFolderPopupWindow.dismiss();
-                } else {
-                    mFolderPopupWindow.show();
-                    int index = myFileListAdapter.getSelectIndex();
-                    index = index == 0 ? index : index - 1;
-                    mFolderPopupWindow.getListView().setSelection(index);
-                }
+            if (mFolderPopupWindow.isShowing()) {
+                mFolderPopupWindow.dismiss();
+            } else {
+                mFolderPopupWindow.show();
+                int index = myFileListAdapter.getSelectIndex();
+                index = index == 0 ? index : index - 1;
+                mFolderPopupWindow.getListView().setSelection(index);
             }
         });
 
         // 点击预览按钮
-        btnPreview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PreViewImageIntent intent = new PreViewImageIntent(mContext);
-                intent.setCurrentItem(0);
-                intent.setPhotoPaths(resultList);
-                startActivityForResult(intent, ImagePickerConstant.REQUEST_PREVIEW);
-            }
+        btnPreview.setOnClickListener(v -> {
+            PreViewImageIntent intent = new PreViewImageIntent(mContext);
+            intent.setCurrentItem(0);
+            intent.setPhotoPaths(resultList);
+            startActivityForResult(intent, ImagePickerConstant.REQUEST_PREVIEW);
         });
     }
 
@@ -235,14 +229,16 @@ public class PickerImageActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mGridView = findViewById(R.id.grid);
-        mGridView.setNumColumns(UsageUtil.getNumColnums(mContext));
+        mGridView.setNumColumns(UsageUtil.getNumColumn(mContext));
 
         mPopupAnchorView = findViewById(R.id.photo_picker_footer);
         btnAlbum = findViewById(R.id.btnAlbum);
         btnPreview = findViewById(R.id.btnPreview);
     }
 
-
+    /**
+     * 加载管理器回调
+     */
     private LoaderManager.LoaderCallbacks<Cursor> mLoaderCallback = new LoaderManager.LoaderCallbacks<Cursor>() {
 
         private final String[] IMAGE_PROJECTION = {
@@ -254,7 +250,7 @@ public class PickerImageActivity extends AppCompatActivity {
         @Override
         public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
-            // 根据图片设置参数新增验证条件
+            // 根据图片设置参数新增扫描条件
             StringBuilder selectionArgs = new StringBuilder();
 
             if (imageConfig != null) {
@@ -314,13 +310,17 @@ public class PickerImageActivity extends AppCompatActivity {
                     cursor.moveToFirst();
                     do {
                         int id = cursor.getInt(cursor.getColumnIndexOrThrow(IMAGE_PROJECTION[3]));
-                        String path = cursor.getString(cursor.getColumnIndexOrThrow(IMAGE_PROJECTION[0]));
-                        //Android Q 公有目录只能通过Content Uri + id的方式访问，以前的File路径全部无效，如果是Video，记得换成MediaStore.Videos
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                            path = MediaStore.Images.Media
+                        String path;
+                        //如果是Video，记得换成MediaStore.Videos
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q) {
+                            //Android 11开始 公有目录只能通过Content Uri + id的方式访问，以前的File路径全部无效
+                            //通过内容提供者扫描也扫不到很多图片，因为没有权限，只有DCIM、Download等目录下图片是能扫描出来的
+                            path = MediaStore.Images.Media//示例：content://media/external/images/media/33
                                     .EXTERNAL_CONTENT_URI
                                     .buildUpon()
                                     .appendPath(String.valueOf(id)).build().toString();
+                        } else {
+                            path = cursor.getString(cursor.getColumnIndexOrThrow(IMAGE_PROJECTION[0]));
                         }
                         String name = cursor.getString(cursor.getColumnIndexOrThrow(IMAGE_PROJECTION[1]));
                         long dateTime = cursor.getLong(cursor.getColumnIndexOrThrow(IMAGE_PROJECTION[2]));
@@ -513,7 +513,7 @@ public class PickerImageActivity extends AppCompatActivity {
         Log.d("PickerImage", "onConfigurationChanged");
 
         // 重置列数
-        mGridView.setNumColumns(UsageUtil.getNumColnums(mContext));
+        mGridView.setNumColumns(UsageUtil.getNumColumn(mContext));
         // 重置Item宽度
         myGridViewAdapter.setItemSize(UsageUtil.getItemImageWidth(mContext));
 

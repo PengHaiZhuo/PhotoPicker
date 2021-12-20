@@ -48,12 +48,12 @@ public class StorageUtil {
          * ---关于Android10的分区适配----
          * 1.从 Android 4.4 到 Android 10，可以通过 Environment.getExternalStorageDirectory() 以 File Api 的方式读写。
          * 2.通过Context访问自己的私有目录，不需要读写权限，不管系统是哪个版本或者是外部存储还是内部存储。
-         * 3.注意uri和真实路径的区别，查看res/xml/file_paths.xml中的示例
+         * 3.注意uri和真实路径的区别，查看res/xml/file_paths.xml中的示例。
          * 4.通过Storage Access Framework的Api不需要权限，可以访问其他应用创建的文件。
          * 不重要的知识：
          *      ① 6.0开始需要申请存储权限；
          *      ② Android 10开始可以做分区适配，不想做的话在配置清单application节点添加声明（requestLegacyExternalStorage = true）。
-         *      不过②这种方式在Android11失效了
+         *      不过②这种方式在Android11失效了，谷歌给了开发者一个的版本的适应时间，然后逼着你适配
          */
         File mFile;
         if (isExternalStorageWritable()) {//有外部存储

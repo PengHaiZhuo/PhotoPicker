@@ -18,7 +18,7 @@ public class UsageUtil {
      * 根据屏幕宽度与密度计算GridView显示的列数， 最少为三列
      * @return
      */
-    public static int getNumColnums(Context context){
+    public static int getNumColumn(Context context){
         int cols = context.getResources().getDisplayMetrics().widthPixels / context.getResources().getDisplayMetrics().densityDpi;
         return Math.max(cols, 3);
     }
@@ -28,7 +28,7 @@ public class UsageUtil {
      * @return
      */
     public static int getItemImageWidth(Context context){
-        int cols = getNumColnums(context);
+        int cols = getNumColumn(context);
         int screenWidth = context.getResources().getDisplayMetrics().widthPixels;
         int columnSpace = context.getResources().getDimensionPixelOffset(R.dimen.space_size);
         return (screenWidth - columnSpace * (cols-1)) / cols;
