@@ -8,6 +8,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+
 import com.github.chrisbanes.photoview.OnPhotoTapListener;
 import com.phz.photopicker.R;
 import com.phz.photopicker.adapter.PhotoPagerAdapter;
@@ -15,12 +21,6 @@ import com.phz.photopicker.config.ImagePickerConstant;
 import com.phz.photopicker.view.MyViewPager;
 
 import java.util.ArrayList;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
 
 /**
  * @author haizhuo

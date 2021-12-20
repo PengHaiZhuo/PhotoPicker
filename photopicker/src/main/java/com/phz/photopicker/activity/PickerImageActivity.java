@@ -6,7 +6,7 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
+import android.media.MediaScannerConnection;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -36,7 +36,6 @@ import com.phz.photopicker.config.ImagePickerConstant;
 import com.phz.photopicker.intent.PreViewImageIntent;
 import com.phz.photopicker.model.ImageFileModel;
 import com.phz.photopicker.model.ImageModel;
-import com.phz.photopicker.util.CheckUtil;
 import com.phz.photopicker.util.ImageCaptureManager;
 import com.phz.photopicker.util.UsageUtil;
 
@@ -566,20 +565,16 @@ public class PickerImageActivity extends AppCompatActivity {
      */
     private void refreshGallery() {
         //发通知刷新相册
-        /*String[] strings = new String[1];
-        String[] stringsMimeTypes = new String[1];
-        strings[0] = imageCaptureManager.getCurrentPhotoPath();
-        stringsMimeTypes[0] = Constract.mimeTypeImage;
-        MediaScannerConnection.scanFile(mContext, strings, stringsMimeTypes, new MediaScannerConnection.OnScanCompletedListener() {
-            @Override
-            public void onScanCompleted(String path, Uri uri) {
-                Log.e("ScanResult:", "path:" + path + "|" + "uri:" + uri);
-            }
-        });*/
+
+        File file = new File(imageCaptureManager.getCurrentPhotoPath());
+        MediaScannerConnection.scanFile(mContext,
+                new String[]{file.toString()},
+                null, null);
+        /* //ACTION_MEDIA_SCANNER_SCAN_FILE在api29被标注为过时
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         File f = new File(imageCaptureManager.getCurrentPhotoPath());
         Uri contentUri = CheckUtil.getUriForFile(mContext, f);
         mediaScanIntent.setData(contentUri);
-        mContext.sendBroadcast(mediaScanIntent);
+        mContext.sendBroadcast(mediaScanIntent);*/
     }
 }

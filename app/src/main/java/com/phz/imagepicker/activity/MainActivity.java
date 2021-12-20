@@ -9,6 +9,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.phz.imagepicker.R;
 import com.phz.imagepicker.adapter.BitmapAdapter;
 import com.phz.imagepicker.config.Constant;
@@ -20,12 +26,6 @@ import com.phz.photopicker.util.UsageUtil;
 import com.phz.photopicker.view.MyGridView;
 
 import java.util.ArrayList;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 /**
  * @author haizhuo
@@ -122,9 +122,9 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 intent.setSelectedCount(0);
             }
-            /*// 已选中的照片地址， 用于回显选中状态
-            intent.setSelectedPaths(imagePathsList);*/
-            startActivityForResult(intent, REQUEST_CAMERA_CODE);
+            // 已选中的照片地址， 用于回显选中状态
+            /*intent.setSelectedPaths(imagePathsList);
+            startActivityForResult(intent, REQUEST_CAMERA_CODE);*/
         } else {
             PreViewImageIntent intent = new PreViewImageIntent(mContext);
             intent.setCurrentItem(position);

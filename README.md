@@ -4,18 +4,19 @@
 
 #### 工程目录下gradle文件添加jitpack依赖：
 
-```java
+```
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
+        gradlePluginPortal()
         maven { url "https://jitpack.io" }
     }
 }
 ```
 #### 添加权限AndroidManifest.xml
 
-```java
+```
  	<uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -31,11 +32,10 @@ dependencies {
 	
     //9宫格的图片选择
     implementation 'com.jaeger.ninegridimageview:library:1.1.1'
-	
 	//本地库依赖
     //implementation project(':photopicker')
     //远程依赖
-    implementation 'com.github.PengHaiZhuo:PhotoPicker:1.0.2'
+    implementation 'com.github.PengHaiZhuo:PhotoPicker:1.0.3'
 }
 ```
 
@@ -129,4 +129,4 @@ dependencies {
 
 
 #### 9宫格
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200430120032606.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzE2NjkyNTE3,size_16,color_FFFFFF,t_70)
+![9宫格](https://img-blog.csdnimg.cn/20200430120032606.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzE2NjkyNTE3,size_16,color_FFFFFF,t_70)

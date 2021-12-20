@@ -47,7 +47,9 @@ public class PickImageIntent extends Intent {
     /**
      * 已选择的照片地址
      * @param list
+     * @deprecated in android 11,由于文件权限的关系，没有权限的情况下获取不到绝对路径
      */
+    @Deprecated
     public void setSelectedPaths(ArrayList<String> list){
         this.putStringArrayListExtra(ImagePickerConstant.EXTRA_DEFAULT_SELECTED_LIST, list);
     }

@@ -1,8 +1,8 @@
 package com.phz.photopicker.model;
 
-import java.util.List;
-
 import androidx.annotation.Nullable;
+
+import java.util.List;
 
 /**
  * @author haizhuo
