@@ -123,8 +123,9 @@ public class MainActivity extends AppCompatActivity {
                 intent.setSelectedCount(0);
             }
             // 已选中的照片地址， 用于回显选中状态
-            /*intent.setSelectedPaths(imagePathsList);
-            startActivityForResult(intent, REQUEST_CAMERA_CODE);*/
+            /*// 已选中的照片地址，用于回显选中状态
+            intent.setSelectedPaths(imagePathsList);*/
+            startActivityForResult(intent, REQUEST_CAMERA_CODE);
         } else {
             PreViewImageIntent intent = new PreViewImageIntent(mContext);
             intent.setCurrentItem(position);
