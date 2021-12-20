@@ -164,44 +164,41 @@ public class PickerImageActivity extends AppCompatActivity {
 
         myFileListAdapter = new MyFileListAdapter(mContext);
 
-        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (myGridViewAdapter.isShowCamera()) {
-                    // 如果显示照相机，则第一个Grid显示为照相机，处理特殊逻辑
-                    if (position == 0) {
-                        if (mode == ImagePickerConstant.MODE_MULTI) {
-                            // 判断选择数量问题
-                            if (maxImageSize == resultList.size()) {
-                                Toast.makeText(mContext, R.string.msg_amount_limit, Toast.LENGTH_SHORT).show();
-                                return;
-                            }
+        mGridView.setOnItemClickListener((parent, view, position, id) -> {
+            if (myGridViewAdapter.isShowCamera()) {
+                // 如果显示照相机，则第一个Grid显示为照相机，处理特殊逻辑
+                if (position == 0) {
+                    if (mode == ImagePickerConstant.MODE_MULTI) {
+                        // 判断选择数量问题
+                        if (maxImageSize == resultList.size()) {
+                            Toast.makeText(mContext, R.string.msg_amount_limit, Toast.LENGTH_SHORT).show();
+                            return;
                         }
-                        /**选择相机*/
-                        try {
-                            Intent intent = imageCaptureManager.dispatchTakePictureIntent();
-                            startActivityForResult(intent, ImagePickerConstant.REQUEST_TAKE_PHOTO);
-                        } catch (IOException e) {
-                            Toast.makeText(mContext, R.string.msg_no_camera, Toast.LENGTH_SHORT).show();
-                            e.printStackTrace();
-                        }
-                    } else {
-                        // 正常操作
-                        ImageModel model = (ImageModel) parent.getAdapter().getItem(position);
-                        selectImageFromGrid(model, mode);
+                    }
+                    /**选择相机*/
+                    try {
+                        Intent intent = imageCaptureManager.dispatchTakePictureIntent();
+                        startActivityForResult(intent, ImagePickerConstant.REQUEST_TAKE_PHOTO);
+                    } catch (IOException e) {
+                        Toast.makeText(mContext, R.string.msg_no_camera, Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
                     }
                 } else {
                     // 正常操作
                     ImageModel model = (ImageModel) parent.getAdapter().getItem(position);
                     selectImageFromGrid(model, mode);
                 }
+            } else {
+                // 正常操作
+                ImageModel model = (ImageModel) parent.getAdapter().getItem(position);
+                selectImageFromGrid(model, mode);
             }
         });
 
         //点击相册列表按钮
         btnAlbum.setOnClickListener(v -> {
             if (mFolderPopupWindow == null) {
-                createPopupFolderList();
+                PickerImageActivity.this.createPopupFolderList();
             }
 
             if (mFolderPopupWindow.isShowing()) {
@@ -219,7 +216,7 @@ public class PickerImageActivity extends AppCompatActivity {
             PreViewImageIntent intent = new PreViewImageIntent(mContext);
             intent.setCurrentItem(0);
             intent.setPhotoPaths(resultList);
-            startActivityForResult(intent, ImagePickerConstant.REQUEST_PREVIEW);
+            PickerImageActivity.this.startActivityForResult(intent, ImagePickerConstant.REQUEST_PREVIEW);
         });
     }
 
