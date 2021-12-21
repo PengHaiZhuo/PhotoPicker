@@ -562,7 +562,6 @@ public class PickerImageActivity extends AppCompatActivity {
      */
     private void refreshGallery() {
         //发通知刷新相册
-
         File file = new File(imageCaptureManager.getCurrentPhotoPath());
         MediaScannerConnection.scanFile(mContext,
                 new String[]{file.toString()},
