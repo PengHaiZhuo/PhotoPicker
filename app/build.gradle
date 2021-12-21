@@ -48,5 +48,5 @@ dependencies {
 
     implementation project(':photopicker')
 
-//    implementation 'com.github.PengHaiZhuo:PhotoPicker:1.0.3'
+//    implementation 'com.github.PengHaiZhuo:PhotoPicker:1.0.4'
 }
