@@ -284,7 +284,7 @@ public class StorageUtil {
      * @return
      * @deprecated Android10开始，MediaStore.Images.ImageColumns.DATA被标记为过期
      */
-    @Deprecated()
+    @Deprecated
     public static String getImgRealFilePath(final Context context, final Uri uri) {
         if (null == uri) {
             return null;
